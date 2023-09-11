@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -17,6 +18,29 @@ void DFS(vector<vector<int> >& adjacencyList, int startingNode, vector<bool>& vi
     }
 }
 
+void BFS(vector<vector<int> > &adjacencyList, int startingNode, vector<bool> & visited){
+    cout<<startingNode<<endl;
+    queue<int> q;
+    q.push(startingNode);
+    visited[startingNode] = true;
+
+    while (!q.empty())
+    {
+        int currNode = q.front();
+        q.pop();
+
+        for(int neighbor : adjacencyList[currNode]){
+            if(!visited[neighbor]){
+                cout<< neighbor << endl;
+                visited[neighbor] = true;
+                q.push(neighbor);
+            }
+        }
+    }
+    
+
+}
+
 int main() {
     int nOfVertices = 5;
     vector<vector<int> > adjacencyList(nOfVertices);
@@ -28,9 +52,17 @@ int main() {
     addDirectedEdge(adjacencyList, 3, 4);
 
     vector<bool> visited(nOfVertices, false);
+
     for (int i = 0; i < nOfVertices; i++) {
         if (!visited[i]) {
-            DFS(adjacencyList, i, visited);
+            BFS(adjacencyList, i, visited);
+        }
+    }
+
+
+    for (int i = 0; i < nOfVertices; i++) {
+        if (!visited[i]) {
+            //DFS(adjacencyList, i, visited);
         }
     }
 
