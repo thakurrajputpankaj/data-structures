@@ -66,37 +66,62 @@ int largestElementinGraph(vector<vector<int> >& adjacencyList, int startingNode,
     return size;
 }
 
+int shortestPath(vector<vector<int> >& adjacencyList, int startingNode, vector<bool> visited, int target){
+    queue<pair<int,int> > q;
+    pair<int,int> _p;
+    _p.first = startingNode;  _p.second = 0; 
+    q.push(_p);
+    visited[startingNode] = true;
+
+    while (!q.empty())
+    {
+        pair<int,int> _p_curr = q.front();
+        q.pop();
+
+        if(_p_curr.first == target){
+            return _p_curr.second;
+        }
+
+        for(int neighbour : adjacencyList[_p_curr.first]){
+            if(!visited[neighbour]){
+                visited[neighbour] = true;
+                pair<int,int> p;
+                p.first = neighbour; p.second = _p_curr.second + 1;
+                q.push(p);
+            }
+        }
+    }
+    return -1;
+}
+
+
 int main() {
     int nOfVertices = 5;
     vector<vector<int> > adjacencyList(nOfVertices);
     int largest = -1;
 
-    addDirectedEdge(adjacencyList, 0, 8);
-    addDirectedEdge(adjacencyList, 0, 1);
-    addDirectedEdge(adjacencyList, 0, 5);
-    addDirectedEdge(adjacencyList, 1, 0);
-    addDirectedEdge(adjacencyList, 5, 0);
-    addDirectedEdge(adjacencyList, 5, 8);
-    addDirectedEdge(adjacencyList, 8, 0);
-    addDirectedEdge(adjacencyList, 8, 5);
+    addDirectedEdge(adjacencyList, 1, 2);
     addDirectedEdge(adjacencyList, 2, 3);
-    addDirectedEdge(adjacencyList, 2, 4);
+    addDirectedEdge(adjacencyList, 4, 3);
+    addDirectedEdge(adjacencyList, 4, 5);
+    addDirectedEdge(adjacencyList, 1, 5);
+    addDirectedEdge(adjacencyList, 2, 1);
     addDirectedEdge(adjacencyList, 3, 2);
     addDirectedEdge(adjacencyList, 3, 4);
-    addDirectedEdge(adjacencyList, 4, 3);
-    addDirectedEdge(adjacencyList, 4, 2);
+    addDirectedEdge(adjacencyList, 5, 4);
+    addDirectedEdge(adjacencyList, 5, 1);
 
     vector<bool> visited(nOfVertices, false);
 
     for (int i = 0; i < nOfVertices; i++) {
         if (!visited[i]) {
-            int size = largestElementinGraph(adjacencyList, i, visited);
-            if(size > largest){
-                largest = size;
-            }
+            //int size = largestElementinGraph(adjacencyList, i, visited);
+            //if(size > largest){
+            //    largest = size;
+            //}
         }
     }
-    cout<<largest;
+    //cout<<largest;
 
 
     for (int i = 0; i < nOfVertices; i++) {
@@ -105,6 +130,7 @@ int main() {
         }
     }
 
+    cout<<shortestPath(adjacencyList, 1, visited, 4);
     return 0;
 }
 
