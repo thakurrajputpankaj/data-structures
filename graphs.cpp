@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-
+#include<unordered_set>
 using namespace std;
 
 void addDirectedEdge(vector<vector<int> >& adjacencyList, int u, int v) {
@@ -94,6 +94,50 @@ int shortestPath(vector<vector<int> >& adjacencyList, int startingNode, vector<b
     return -1;
 }
 
+bool explore(vector<vector<char> >& grid, int r, int c, unordered_set<int>& visited, int numRows, int numCols) {
+    // Boundary checks
+    if (r < 0 || r >= numRows || c < 0 || c >= numCols) {
+        return false;
+    }
+    if (grid[r][c] == 'W') { // Check if it's water
+        return false;
+    }
+
+    // Calculate a unique index for the position
+    int posIndex = r * numCols + c;
+
+    // Check if the position has already been visited
+    if (visited.find(posIndex) != visited.end()) {
+        return false;
+    }
+
+    // Mark the position as visited
+    visited.insert(posIndex);
+
+    // Explore adjacent positions
+    explore(grid, r + 1, c, visited, numRows, numCols);
+    explore(grid, r, c + 1, visited, numRows, numCols);
+    explore(grid, r - 1, c, visited, numRows, numCols);
+    explore(grid, r, c - 1, visited, numRows, numCols);
+
+    return true;
+}
+int islandCount(vector<vector<char> >& grid) {
+    int count = 0;
+    int numRows = grid.size();
+    int numCols = grid[0].size();
+    unordered_set<int> visited;
+
+    for (int r = 0; r < numRows; r++) {
+        for (int c = 0; c < numCols; c++) {
+            if (explore(grid, r, c, visited, numRows, numCols) == true) {
+                count++;
+            }
+        }
+    }
+
+    return count;
+}
 
 int main() {
     int nOfVertices = 5;
@@ -114,23 +158,34 @@ int main() {
     vector<bool> visited(nOfVertices, false);
 
     for (int i = 0; i < nOfVertices; i++) {
-        if (!visited[i]) {
+        //if (!visited[i]) {
             //int size = largestElementinGraph(adjacencyList, i, visited);
             //if(size > largest){
             //    largest = size;
             //}
-        }
+        //}
     }
     //cout<<largest;
 
 
     for (int i = 0; i < nOfVertices; i++) {
-        if (!visited[i]) {
+        //if (!visited[i]) {
             //DFS(adjacencyList, i, visited);
-        }
+        //}
     }
 
-    cout<<shortestPath(adjacencyList, 1, visited, 4);
+    //cout<<shortestPath(adjacencyList, 1, visited, 4);
+
+    vector<vector<char> > grid {
+        { 'W', 'L', 'W', 'W', 'W' },
+        { 'W', 'L', 'W', 'W', 'W' },
+        { 'W', 'W', 'W', 'L', 'W' },
+        { 'W', 'W', 'L', 'L', 'W' },
+        { 'L', 'W', 'W', 'L', 'L' },
+        { 'L', 'L', 'W', 'W', 'W' }
+    };
+
+    cout << islandCount(matrix) << endl;
     return 0;
 }
 
