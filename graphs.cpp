@@ -140,6 +140,7 @@ int islandCount(vector<vector<char> >& grid) {
 }
 
 int main() {
+    /*
     int nOfVertices = 5;
     vector<vector<int> > adjacencyList(nOfVertices);
     int largest = -1;
@@ -176,6 +177,7 @@ int main() {
 
     //cout<<shortestPath(adjacencyList, 1, visited, 4);
 
+    */
     vector<vector<char> > grid {
         { 'W', 'L', 'W', 'W', 'W' },
         { 'W', 'L', 'W', 'W', 'W' },
@@ -185,7 +187,7 @@ int main() {
         { 'L', 'L', 'W', 'W', 'W' }
     };
 
-    cout << islandCount(matrix) << endl;
+    cout << islandCount(grid) << endl;
     return 0;
 }
 
